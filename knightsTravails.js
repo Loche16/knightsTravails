@@ -6,28 +6,27 @@ function knightMoves([x, y], [xf, yf]){
     const queue = []
     queue.push([[x, y]])
 
-    const visited = []
-    visited.push([x, y])
+    const visited = new Set()
+    visited.add(`${x},${y}`)
 
     while(queue.length){
         const path = queue.shift()
         const node = path[path.length - 1]
 
         if(node[0] === xf && node[1] === yf){
-            return path
+            return `You made it in ${path.length - 1} moves! Here is your path: ${JSON.stringify(path)}`
         }
         for(i = 0; i < 8; i++){
             let nx = node[0] + dx[i]
             let ny = node[1] + dy[i]
 
-            if(nx < 8 && nx >= 0 && ny < 8 && ny >= 0 && !visited.includes([nx, ny])){
-                visited.push([nx, ny])
+            if(nx < 8 && nx >= 0 && ny < 8 && ny >= 0 && !visited.has(`${nx},${ny}`)){
+                visited.add(`${nx},${ny}`)
                 queue.push([...path, [nx, ny]])
             }
-        }
-        
+        }   
     }
 }
 
-console.log(knightMoves([2,2], [4,4]))
+console.log(knightMoves([0,0], [7,7]))
 console.log(knightMoves([2,2], [8,7]))
